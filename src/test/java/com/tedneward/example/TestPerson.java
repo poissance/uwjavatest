@@ -44,7 +44,7 @@ public class TestPerson {
   }
   
   @Test
-  public void exercisePesonEquals() {
+  public void exercisePersonEquals() {
     Person p1 = new Person("Ted", 43, 250000);
     Person p2 = p1;
     assertEquals(p1, p2);
@@ -64,7 +64,7 @@ public class TestPerson {
     assertFalse(p1.equals(null));
     assertFalse(p1.equals(new Integer(27)));
   }
-
+  
   @Test
   public void useAgeComparator() {
     List<Person> people = Person.getNewardFamily();
@@ -94,11 +94,16 @@ public class TestPerson {
     // ============ YOUR CHANGES BEGIN HERE
     // Call addPropertyChangeListener with a PropertyChangedListener
     // that has the following code in it:
-    /*
-    assertEquals("ssn", pce.getPropertyName());
-    assertEquals("", pce.getOldValue());
-    assertEquals("012-34-5678", pce.getNewValue());
-    */
+    
+	ted.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent pce) {
+				assertEquals("ssn", pce.getPropertyName());
+				if (ted.getPropertyChangeFired()) {
+					assertEquals("", pce.getOldValue());
+					assertEquals("012-34-5678", pce.getNewValue());	
+				}			
+			}
+		} );
 
     // ============ YOUR CHANGES END HERE
     

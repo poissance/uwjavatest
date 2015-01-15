@@ -4,13 +4,14 @@ import java.beans.*;
 import java.util.*;
 
 public class Person implements Comparable<Person>{
+
   private int age;
   private String name;
   private double salary;
   private String ssn;
   private boolean propertyChangeFired = false;
   private static int numPeople = 0;
-  
+
   public Person() {
     this("", 0, 0.0d);
   }
@@ -55,9 +56,9 @@ public class Person implements Comparable<Person>{
   @Override
   public int compareTo(Person other) {
 	if (other.getSalary() < this.getSalary()) {
-		return 1;
-	} else if (other.getSalary() > this.getSalary()) {
 		return -1;
+	} else if (other.getSalary() > this.getSalary()) {
+		return 1;
 	} else {
 		return 0;
 	}
@@ -90,27 +91,24 @@ public class Person implements Comparable<Person>{
     return age + 10;
   }
   
-  public boolean equals(Person other) {
-    return (this.name.equals(other.name) && this.age == other.age);
+  @Override
+  public boolean equals(Object other) {
+		if (other instanceof Person) {
+			Person p = (Person) other;
+			return p.name.equals(this.name) && p.age == this.age;
+		}
+		return false;
+	}
+  
+  @Override
+  public String toString() {
+    return "[Person name:" + name + " age:" + age + " salary:" + salary + "]";
   }
   
-  public String tostring() {
-    return "{" + this.getName() + ", " + this.getAge() + ", " + this.getSalary();
-  }
-  
-  class AgeComparator implements Comparator<Person> {
+  public static class AgeComparator implements Comparator<Person> {
 	@Override
 	public int compare(Person p1, Person p2) {
-		int p1Age = p1.getAge();
-		int p2Age = p2.getAge();
-		
-		if (p1Age > p2Age) {
-			return 1;
-		} else if (p1Age < p2Age) {
-			return -1;
-		} else {
-			return 0;
-		}
+		return p1.getAge() - p2.getAge();
 	}
   }
   
@@ -122,7 +120,7 @@ public class Person implements Comparable<Person>{
 	newardFamily.add(new Person("Matthew",15,0));
 	return newardFamily;
   }
-  
+
   // PropertyChangeListener support; you shouldn't need to change any of
   // these two methods or the field
   //
@@ -134,4 +132,3 @@ public class Person implements Comparable<Person>{
       this.pcs.removePropertyChangeListener(listener);
   }
 }
-
